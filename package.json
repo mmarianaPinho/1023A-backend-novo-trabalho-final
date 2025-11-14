@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/index-mongo.ts",
-    "dev:mongo": "tsx watch src/index-mongo.ts",
+    "dev": "tsx watch src/index.ts",
+    "dev:mongo": "tsx watch src/index.ts",
     "build": "npm install && tsc",
-    "start": "node dist/index-mongo.js",
+    "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
