@@ -7,15 +7,9 @@ import usuarioController from "../usuarios/usuario.controller.js";
 const rotas = Router();
 
 // Todos podem ver produtos
-rotas.get("/produtos", produtoController.listar);
+rotas.get("/produtos", Auth, produtoController.listar);
 rotas.post("/produtos", Auth, produtoController.adicionar);
 
-rotas.post("/produtos", Auth, (req, res, next) => {
-  if ((req as any).tipo !== "admin") {
-    return res.status(403).json({ mensagem: "Apenas administradores podem criar produtos." });
-  }
-  next();
-}, produtoController.adicionar);
 
 
 // Carrinho (só logado)
