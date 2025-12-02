@@ -21,7 +21,8 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "mongodb": "^6.19.0",
-    "mysql2": "^3.14.3"
+    "mysql2": "^3.14.3",
+    "stripe": "^20.0.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",

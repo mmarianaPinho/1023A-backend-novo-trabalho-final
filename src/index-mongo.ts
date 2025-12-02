@@ -5,23 +5,51 @@ import rotasNaoAutenticadas from './rotas/rotas-nao-autenticadas.js';
 import Auth from './middleware/auth.js';
 import cors from 'cors'
 import produtoController from './produtos/produto.controller.js';
-
+import Stripe from "stripe";
 const app = express();
 app.use(cors())
 app.use(express.json());
 
-// 1️⃣ ROTAS NÃO AUTENTICADAS (login)
+
 app.use(rotasNaoAutenticadas);
 
-// 2️⃣ ROTA PÚBLICA DE PRODUTOS (SEM LOGIN)
+
 app.get("/produtos", produtoController.listar);
 
-// 3️⃣ A PARTIR DAQUI, TUDO EXIGE TOKEN
+
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY!;
+const stripe = new Stripe(stripeSecretKey);
+
+
+
+app.post("/pagamento", async (req, res) => {
+  try {
+    const { amount } = req.body; 
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount,
+      currency: "brl",
+      automatic_payment_methods: { enabled: true },
+    });
+
+    res.json({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      erro: error.message,
+    });
+  }
+});
+
 app.use(Auth);
 
-// 4️⃣ ROTAS AUTENTICADAS (carrinho, admin, etc.)
 app.use(rotasAutenticadas);
 
-app.listen(8000, () => {
-    console.log('Server is running on port 8000');
+
+const PORT = process.env.PORT || 8000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
+
