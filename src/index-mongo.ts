@@ -16,6 +16,7 @@ app.use(rotasNaoAutenticadas);
 
 app.get("/produtos", produtoController.listar);
 
+app.use(Auth);
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY!;
 const stripe = new Stripe(stripeSecretKey);
@@ -42,7 +43,6 @@ app.post("/pagamento", async (req, res) => {
   }
 });
 
-app.use(Auth);
 
 app.use(rotasAutenticadas);
 
